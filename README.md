@@ -29,12 +29,12 @@ We will list the first 11:
 
 ==================================================================================
 
-Peer Review Portion
+## Peer Review Portion
 
 Your submission for the Peer Review portion should consist of a link to a Github repo with your R markdown and compiled HTML file describing your analysis. Please constrain the text of the writeup to < 2000 words and the number of figures to be less than 5. It will make it easier for the graders if you submit a repo with a gh-pages branch so the HTML page can be viewed online (and you always want to make it easy on graders :-).
 
 ======================================================================================
 
-Files
+## Files
 
 Practical_Machine_Learning.Rmd, Practical_Machine_Learning_template.md, Practical_Machine_Learning.html contains the R scripts that performs the analysis on the raw data.
