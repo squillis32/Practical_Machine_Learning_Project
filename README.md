@@ -1,5 +1,4 @@
-# Practical_Machine_Learning_Project
-==============================================================================
+# Practical Machine Learning Project
 
 This repository is for the Coursera "Practical Machine Learning" course project.
 
@@ -27,13 +26,9 @@ We will list the first 11:
 * 10 - yaw_belt (numeric)
 * 11 - total_accel_belt (integer)
 
-==================================================================================
-
 ## Peer Review Portion
 
 Your submission for the Peer Review portion should consist of a link to a Github repo with your R markdown and compiled HTML file describing your analysis. Please constrain the text of the writeup to < 2000 words and the number of figures to be less than 5. It will make it easier for the graders if you submit a repo with a gh-pages branch so the HTML page can be viewed online (and you always want to make it easy on graders :-).
-
-======================================================================================
 
 ## Files
 
