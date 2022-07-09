@@ -1,5 +1,6 @@
 # Practical_Machine_Learning_Project
 ===================================================================================
+
 This repository is for the Coursera "Practical Machine Learning" course project.
 
 The goal is to predict the manner in which 6 participants completed a set of exercises.
