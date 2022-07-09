@@ -15,17 +15,17 @@ https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv
 Both the training data frame with 19,622 observations and the testing data frame with 20 observations consists of 160 variables.
 We will list the first 11:
 
-1 - X (integer)
-2 - user_name (character)
-3 - raw_timestamp_part_1 (int)
-4 - raw_timestamp_part_2 (int)
-5 - cvtd_timestamp (character)
-6 - new_window (character)
-7 - num_window (integer)
-8 - roll_belt (numeric)
-9 - pitch_belt (numeric)
-10 - yaw_belt (numeric)
-11 - total_accel_belt (integer)
+* 1 - X (integer)
+* 2 - user_name (character)
+* 3 - raw_timestamp_part_1 (int)
+* 4 - raw_timestamp_part_2 (int)
+* 5 - cvtd_timestamp (character)
+* 6 - new_window (character)
+* 7 - num_window (integer)
+* 8 - roll_belt (numeric)
+* 9 - pitch_belt (numeric)
+* 10 - yaw_belt (numeric)
+* 11 - total_accel_belt (integer)
 
 ==================================================================================
 
