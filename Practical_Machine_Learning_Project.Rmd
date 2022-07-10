@@ -14,18 +14,18 @@ knitr::opts_chunk$set(echo = TRUE)
 # Practical Machine Learning Project
 Author: Jake Willis
 
-##Instructions
+## Instructions
 One thing that people regularly do is quantify how $much$ of a particular activity they do, but they rarely quantify $how well they do it$.
 In this project, your goal will be to use data from accelerometers on the belt, forearm, arm, and dumbbell of 6 participants. We will predict
 the manner in which participants did the exercise. This is the "classe" variable in the training set.
 
-##Executive Summary
+## Executive Summary
 
 This analysis will lead you through how we cleaned the data, generated our models, and why we selected the best model. Finally, we will use our selected model to predict 20 different validation cases.
 
 From the four models, the gradient boosted tree model generated the most accurate model (without over-fitting) with a 99.35% accurate rate.
 
-##Data Summary
+## Data Summary
 The training data for this project are available here:
 https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv
 
@@ -38,19 +38,19 @@ http://web.archive.org/web/20161224072740/http:/groupware.les.inf.puc-rio.br/har
 Both the training data frame with 19,622 observations and the testing data frame with 20 observations consists of 160 variables.
 We will list the first 11:
 
-1 - X (integer)
-2 - user_name (character)
-3 - raw_timestamp_part_1 (int)
-4 - raw_timestamp_part_2 (int)
-5 - cvtd_timestamp (character)
-6 - new_window (character)
-7 - num_window (integer)
-8 - roll_belt (numeric)
-9 - pitch_belt (numeric)
-10 - yaw_belt (numeric)
-11 - total_accel_belt (integer)
+* 1 - X (integer)
+* 2 - user_name (character)
+* 3 - raw_timestamp_part_1 (int)
+* 4 - raw_timestamp_part_2 (int)
+* 5 - cvtd_timestamp (character)
+* 6 - new_window (character)
+* 7 - num_window (integer)
+* 8 - roll_belt (numeric)
+* 9 - pitch_belt (numeric)
+* 10 - yaw_belt (numeric)
+* 11 - total_accel_belt (integer)
 
-##Data Processing
+## Data Processing
 Load the training and testing data and perform some basic exploratory data analyses
 ```{r, message = FALSE, error = FALSE, warning = FALSE, echo = TRUE}
 
@@ -60,6 +60,7 @@ rm(list = ls())
 # Load the necessary packages.
 library(caret)         # Contains functions to streamline the model training process for complex regression and classification problems.
 library(datasets)      # A package that contains a variety of datasets.
+library(gbm)           # A package that implements boosting for models commonly used in statistics
 library(ggplot2)       # A system for 'declaratively' creating graphics, based on "The Grammar of Graphics."
 library(gridExtra)     # Provides a number of user-level functions to work with "grid" graphics.
 library(randomForest)  # An implementation of Breiman's random forest algorithm for classification and regression.
@@ -119,13 +120,12 @@ validation2  <- validation2[ , -(1:5)]
 
 # Now, we will create testing data from our training data.
 inBuild <- createDataPartition(y = training2$classe, p = 0.7, list = F)
-
 training2 <- training2[ inBuild, ]
 testing2  <- training2[ -inBuild, ]
 
 ```
 
-##Model Creation
+## Model Creation
 To complete the project objective, we must determine which predictor variables will assist us in predicting the "classe" variable. Therefore, we will build a few models, and select the best one.
 
 Next, we will build a **decision tree**, a **random forest with randomly selected predictors**, a **random forest with 3-fold cross-validation**, and a **gradient boosted tree**.
@@ -141,7 +141,6 @@ fancyRpartPlot(model_dec_tree$finalModel)
 # Fit a random forest model by determining the optimal number of randomly sampled predictors.
 for_param  <- tuneRF(training2[ , -54], as.factor(training2$classe), ntreeTry = 500, stepFactor = 1.5,
                           improve = 0.01, plot = FALSE, trace = TRUE, dobest = FALSE)
-
 model_rf <- randomForest(as.factor(classe) ~ ., data = training2, mtry = 10, ntree = 500)
 
 # Fit a random forest model with a 3-fold cross-validation and manual fine tuning of the parameters.
@@ -154,7 +153,7 @@ model_gbm <- train(classe ~ ., data = training2, method = "gbm", verbose = FALSE
 
 ```
 
-##Model Selection
+## Model Selection
 Now that we built our four models, lets compare them by using the fitted models to predict the "classe" variable on the testing data.
 ```{r, message = FALSE, error = FALSE, warning = FALSE, echo = TRUE}
 
@@ -174,6 +173,7 @@ cfm_dec_tree  <- confusionMatrix(pred_dec_tree, factor(testing2$classe))
 cfm_rf        <- confusionMatrix(pred_rf, factor(testing2$classe))
 cfm_rf2       <- confusionMatrix(pred_rf2, factor(testing2$classe))
 cfm_gbm       <- confusionMatrix(pred_gbm, factor(testing2$classe))
+
 ```
 
 Lets observe the accuracy rates of each model.
@@ -181,14 +181,18 @@ Lets observe the accuracy rates of each model.
 
 # Print the accuracy rates of each model.
 print(paste0("Our decision tree models generates a ", round(cfm_dec_tree$overall[1], 4) * 100, "% accuracy."))
+
 print(paste0("Our random forest model with randomly selected predictors generates a ", round(cfm_rf$overall[1], 4) * 100, "% accuracy."))
+
 print(paste0("Our random forest model with 3-fold cross-validation generates a ", round(cfm_rf2$overall[1], 4) * 100, "% accuracy."))
+
 print(paste0("Our gradient boosted tree generates a ", round(cfm_gbm$overall[1], 4) * 100, "% accuracy."))
+
 ```
 
 We observe both our random forest models generate a 100% accuracy. However, this raises the possibility of over fitting. Therefore, we will use our gradient-boosted tree model with a 99.35% accuracy to test against our validation data of 20 observations.
 
-##Model Validation
+## Model Validation
 We will use our gradient boosted model to predict the "classe" variable with five levels for the 20 observations.
 ```{r, message = FALSE, error = FALSE, warning = FALSE, echo = TRUE}
 
@@ -197,6 +201,5 @@ pred_val <- predict(model_gbm, validation)
 
 #Print the results.
 print(pred_val)
+
 ```
-
-
